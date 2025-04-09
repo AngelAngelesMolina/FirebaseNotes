@@ -36,7 +36,6 @@ fun TabsView(loginVm: LoginViewModel, navController: NavController, pad: Padding
         TabRow(
             selectedTabIndex = selectedTab,
             contentColor = Color.Black,
-            containerColor = Color.White,
             indicator = { tabPosition ->
                 SecondaryIndicator(Modifier.tabIndicatorOffset(tabPosition[selectedTab]))
             }) {

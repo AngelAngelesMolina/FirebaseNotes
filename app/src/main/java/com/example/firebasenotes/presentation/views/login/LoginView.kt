@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.firebasenotes.presentation.components.Alert
 import com.example.firebasenotes.presentation.viewmodels.LoginViewModel
 
 @Composable
@@ -57,7 +58,7 @@ fun LoginView(navController: NavController, loginVm: LoginViewModel) {
         Spacer(modifier = Modifier.height(20.dp))
         Button(
             onClick = {
-                loginVm.login(email, password){
+                loginVm.login(email, password) {
                     navController.navigate("Home")
                 }
             }, modifier = Modifier
@@ -65,6 +66,15 @@ fun LoginView(navController: NavController, loginVm: LoginViewModel) {
                 .padding(start = 30.dp, end = 30.dp)
         ) {
             Text(text = "Entrar")
+        }
+
+        if (loginVm.showAlert) {
+            Alert(
+                title = "Alerta",
+                message = "Usuario y/o password incorrecto",
+                onConfirmClick ={loginVm.closeAlert()},
+                confirmText = "Aceptar"
+            ) { }
         }
 
     }
