@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
@@ -57,17 +58,19 @@ class LoginViewModel : ViewModel() {
         val id = auth.currentUser?.uid
         val email = auth.currentUser?.email
 
-        val user = UserModel(userId = id.toString(), email = email.toString(), userName = username)
+        viewModelScope.launch(Dispatchers.IO) {
+            val user =
+                UserModel(userId = id.toString(), email = email.toString(), userName = username)
+            FirebaseFirestore.getInstance().collection("Users")
+                .add(user)
+                .addOnSuccessListener {
+                    Log.d("GUARDADO!", "SE GUARDO CORRECTAMENTE EN FIRESTORE")
 
-        FirebaseFirestore.getInstance().collection("Users")
-            .add(user)
-            .addOnSuccessListener {
-                Log.d("GUARDADO!", "SE GUARDO CORRECTAMENTE EN FIRESTORE")
-
-            }
-            .addOnFailureListener {
-                Log.d("ERROR AL GUARDAR", "ERROR AL GUARDAR EN FIRESTORE")
-            }
+                }
+                .addOnFailureListener {
+                    Log.d("ERROR AL GUARDAR", "ERROR AL GUARDAR EN FIRESTORE")
+                }
+        }
     }
 
 
