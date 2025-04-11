@@ -18,7 +18,7 @@ fun NavManager(loginVm: LoginViewModel, notesVm: NotesViewModel, pad: PaddingVal
             TabsView(loginVm, navController, pad)
         }
         composable("Home") {
-            HomeView()
+            HomeView(pad)
         }
     }
 }
