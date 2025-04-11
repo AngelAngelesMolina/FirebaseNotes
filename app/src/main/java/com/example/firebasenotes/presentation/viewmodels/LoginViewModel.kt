@@ -6,9 +6,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.firebasenotes.data.models.UserModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
@@ -32,7 +35,43 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    fun closeAlert(){
+    fun createUser(email: String, password: String, username: String, onSuccess: () -> Unit) {
+        viewModelScope.launch {
+            try {
+                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        saveUser(username)
+                        onSuccess()
+                    } else {
+                        Log.d("ERROR EN FIREBASE", "Error al crear usr")
+                        showAlert = true
+                    }
+                }
+            } catch (e: Exception) {
+                Log.d("ERROR EN JETPACK", "ERROR: ${e.localizedMessage}")
+            }
+        }
+    }
+
+    private fun saveUser(username: String) {
+        val id = auth.currentUser?.uid
+        val email = auth.currentUser?.email
+
+        val user = UserModel(userId = id.toString(), email = email.toString(), userName = username)
+
+        FirebaseFirestore.getInstance().collection("Users")
+            .add(user)
+            .addOnSuccessListener {
+                Log.d("GUARDADO!", "SE GUARDO CORRECTAMENTE EN FIRESTORE")
+
+            }
+            .addOnFailureListener {
+                Log.d("ERROR AL GUARDAR", "ERROR AL GUARDAR EN FIRESTORE")
+            }
+    }
+
+
+    fun closeAlert() {
         showAlert = false
     }
 

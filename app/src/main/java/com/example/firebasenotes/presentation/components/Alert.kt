@@ -27,10 +27,8 @@ fun Alert(
         confirmButton = {
             Button(onClick = {onConfirmClick()}) {
                 Text(text = confirmText)
-
             }
         }
-
         )
 
 }
