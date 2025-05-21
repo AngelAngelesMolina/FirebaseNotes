@@ -9,7 +9,8 @@ import com.example.firebasenotes.presentation.viewmodels.LoginViewModel
 import com.example.firebasenotes.presentation.viewmodels.NotesViewModel
 import com.example.firebasenotes.presentation.views.login.BlankView
 import com.example.firebasenotes.presentation.views.login.TabsView
-import com.example.firebasenotes.presentation.views.note.HomeView
+import com.example.firebasenotes.presentation.views.notes.AddNoteView
+import com.example.firebasenotes.presentation.views.notes.HomeView
 
 @Composable
 fun NavManager(loginVm: LoginViewModel, notesVm: NotesViewModel, pad: PaddingValues) {
@@ -23,6 +24,9 @@ fun NavManager(loginVm: LoginViewModel, notesVm: NotesViewModel, pad: PaddingVal
         }
         composable("Home") {
             HomeView(navController, notesVm, pad)
+        }
+        composable("AddNoteView") {
+            AddNoteView(navController, notesVm)
         }
     }
 }
