@@ -59,8 +59,7 @@ class LoginViewModel : ViewModel() {
         val email = auth.currentUser?.email
 
         viewModelScope.launch(Dispatchers.IO) {
-            val user =
-                UserModel(userId = id.toString(), email = email.toString(), userName = username)
+            val user = UserModel(userId = id.toString(), email = email.toString(), userName = username)
             FirebaseFirestore.getInstance().collection("Users")
                 .add(user)
                 .addOnSuccessListener {

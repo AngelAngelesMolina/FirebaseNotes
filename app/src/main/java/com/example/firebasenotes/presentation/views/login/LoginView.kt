@@ -36,7 +36,7 @@ fun LoginView(navController: NavController, loginVm: LoginViewModel) {
 
 
         OutlinedTextField(value = email, onValueChange = {
-            email = it
+            email = it.trim()
         }, label = {
             Text("Email")
         }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
@@ -45,7 +45,7 @@ fun LoginView(navController: NavController, loginVm: LoginViewModel) {
                 .padding(start = 30.dp, end = 30.dp)
         )
         OutlinedTextField(value = password, onValueChange = {
-            password = it
+            password = it.trim()
         }, label = {
             Text("Password")
         },
