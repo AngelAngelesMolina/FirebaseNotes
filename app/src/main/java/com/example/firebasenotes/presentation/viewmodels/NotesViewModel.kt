@@ -32,6 +32,13 @@ class NotesViewModel : ViewModel() {
     var state by mutableStateOf(NoteStates())
         private set
 
+    fun onValue(value: String, text: String) { //actualizar nuestra data
+        when (text) {
+            "title" -> state = state.copy(title = value)
+            "note" -> state = state.copy(note = value)
+        }
+    }
+
     fun getNoteById(idDoc: String) {
         firestore.collection("Notes").document(idDoc).addSnapshotListener { value, error ->
             if (error != null) {
