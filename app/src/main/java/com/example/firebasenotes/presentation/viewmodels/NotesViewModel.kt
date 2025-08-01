@@ -114,6 +114,20 @@ class NotesViewModel : ViewModel() {
         }
 
     }
+    fun deleteNote(idDoc: String, onSuccess: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                firestore.collection("Notes").document(idDoc).delete()
+                    .addOnSuccessListener {
+                        onSuccess()
+                    }
+
+            } catch (e: Exception) {
+                Log.d("ERROR EN DELETE", "Error al eliminar ${e.localizedMessage}")
+            }
+        }
+
+    }
 
     private fun formatDate(): String {
         val currentDate: Date = Calendar.getInstance().time
