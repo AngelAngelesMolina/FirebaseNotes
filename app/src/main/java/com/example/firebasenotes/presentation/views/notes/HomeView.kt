@@ -36,7 +36,7 @@ fun HomeView(navController: NavController, notesViewModel: NotesViewModel, pad: 
                 title = {
                     Text(text = "Mis notas")
                 },
-                navigationIcon = {
+                navigationIcon = { //Icono de la izquierda
                     IconButton(onClick = {
                         notesViewModel.logOut()
                         navController.popBackStack()

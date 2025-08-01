@@ -21,14 +21,21 @@ fun Alert(
 
     val scroll = rememberScrollState(0)
 
-    AlertDialog(onDismissRequest = {onDismissClick()},
-        title = { Text(text = title)},
-        text = { Text(text = message, textAlign = TextAlign.Justify, modifier = Modifier.verticalScroll(scroll))},
+    AlertDialog(
+        onDismissRequest = { onDismissClick() },
+        title = { Text(text = title) },
+        text = {
+            Text(
+                text = message,
+                textAlign = TextAlign.Justify,
+                modifier = Modifier.verticalScroll(scroll)
+            )
+        },
         confirmButton = {
-            Button(onClick = {onConfirmClick()}) {
+            Button(onClick = { onConfirmClick() }) {
                 Text(text = confirmText)
             }
         }
-        )
+    )
 
 }

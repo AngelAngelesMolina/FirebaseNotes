@@ -37,7 +37,7 @@ class NotesViewModel : ViewModel() {
                 val documents = mutableListOf<NoteStates>()
                 querySnapshot?.forEach { document ->
                     val document = document.toObject(NoteStates::class.java)
-                        .copy(idDoc = document.id) //Se saca todo el documento
+                        .copy(idDoc = document.id) //Se saca todo el documento incluyendo el id
                     documents.add(document)
                 }
                 _notesData.value = documents
