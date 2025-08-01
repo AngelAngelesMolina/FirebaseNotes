@@ -1,6 +1,9 @@
 package com.example.firebasenotes.presentation.viewmodels
 
 import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.firebasenotes.data.models.NoteStates
@@ -25,6 +28,25 @@ class NotesViewModel : ViewModel() {
 
     private val _notesData = MutableStateFlow<List<NoteStates>>(emptyList())
     val notesData: StateFlow<List<NoteStates>> = _notesData
+
+    var state by mutableStateOf(NoteStates())
+        private set
+
+    fun getNoteById(idDoc: String) {
+        firestore.collection("Notes").document(idDoc).addSnapshotListener { value, error ->
+            if (error != null) {
+                return@addSnapshotListener
+            }
+            if (value != null && value.exists()) {
+
+                val note = value.toObject(NoteStates::class.java)
+                state = state.copy(
+                    title = note?.title ?: "",
+                    note = note?.note ?: "",
+                )
+            }
+        }
+    }
 
     fun fetchNotes() {
         val email = auth.currentUser?.email
