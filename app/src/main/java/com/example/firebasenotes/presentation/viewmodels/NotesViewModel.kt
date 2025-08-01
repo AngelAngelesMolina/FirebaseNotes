@@ -1,6 +1,7 @@
 package com.example.firebasenotes.presentation.viewmodels
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -90,6 +91,25 @@ class NotesViewModel : ViewModel() {
 
             } catch (e: Exception) {
                 Log.d("ERROR SAVE", "Error al guardar ${e.localizedMessage}")
+            }
+        }
+
+    }
+
+    fun editNote(idDoc: String, onSuccess: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val editNote = hashMapOf(
+                    "title" to state.title,
+                    "note" to state.note,
+                )
+                firestore.collection("Notes").document(idDoc).update(editNote as Map<String, Any>)
+                    .addOnSuccessListener {
+                        onSuccess()
+                    }
+
+            } catch (e: Exception) {
+                Log.d("ERROR EN EDIT", "Error al editar ${e.localizedMessage}")
             }
         }
 
